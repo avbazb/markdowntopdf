@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+
+    <AssemblyTitle>Markdown转PDF工具</AssemblyTitle>
+    <AssemblyDescription>一个功能强大的Markdown文档转PDF转换器 - v2.8 Markdown表格HTML内联支持版</AssemblyDescription>
+    <AssemblyVersion>2.8.0.0</AssemblyVersion>
+    <FileVersion>2.8.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Markdown解析 -->
+    <PackageReference Include="Markdig" Version="0.33.0" />
+    
+    <!-- PDF生成 -->
+    <PackageReference Include="PdfSharp" Version="6.0.0" />
+    
+    <!-- 现代化WPF UI -->
+    <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+    
+    <!-- 图片处理 -->
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
+    
+    <!-- SVG处理 -->
+    <PackageReference Include="Svg.Skia" Version="3.0.3" />
+    <PackageReference Include="SkiaSharp" Version="3.116.1" />
+    
+    <!-- HTML解析 -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
+    
+    <!-- JSON配置 -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    
+    <!-- 异步扩展 -->
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Models\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\Icons\" />
+  </ItemGroup>
+
+</Project> 

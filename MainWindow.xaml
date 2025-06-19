@@ -1,0 +1,180 @@
+<Window x:Class="MarkdownToPdf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Markdown转PDF工具" 
+        Height="700" 
+        Width="1100"
+        MinHeight="600"
+        MinWidth="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0" Background="{DynamicResource SystemControlBackgroundAccentBrush}" Padding="20,16">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📄" FontSize="24" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <TextBlock Text="Markdown转PDF工具" FontSize="20" FontWeight="Light" Foreground="White"/>
+                    <TextBlock Text="轻松将Markdown文档转换为精美的PDF文件" FontSize="12" Foreground="#E0FFFFFF"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- 主内容区 -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧：文件处理 -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <!-- 文件选择 -->
+                    <TextBlock Text="选择Markdown文件" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="InputFileTextBox" Padding="10" IsReadOnly="True" 
+                                 Text="请选择要转换的Markdown文件..." Margin="0,0,8,0"/>
+                        <Button Name="BrowseButton" Grid.Column="1" Style="{StaticResource AppleButtonStyle}"
+                                Background="{DynamicResource SystemControlBackgroundAccentBrush}" 
+                                Foreground="White" Click="BrowseButton_Click">
+                            浏览
+                        </Button>
+                    </Grid>
+
+                    <!-- 预览 -->
+                    <TextBlock Text="文件预览" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                            BorderThickness="1" CornerRadius="6" Height="300" Margin="0,0,0,20">
+                        <ScrollViewer>
+                            <TextBox Name="PreviewTextBox" IsReadOnly="True" Background="Transparent"
+                                     BorderThickness="0" FontFamily="Consolas" FontSize="11"
+                                     TextWrapping="Wrap" AcceptsReturn="True" Padding="10"
+                                     Text="在这里将显示Markdown文件的内容预览..."/>
+                        </ScrollViewer>
+                    </Border>
+
+                    <!-- 输出设置 -->
+                    <TextBlock Text="输出设置" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="OutputFileTextBox" Padding="10" 
+                                 Text="请选择PDF输出路径..." Margin="0,0,8,0"/>
+                        <Button Name="SaveAsButton" Grid.Column="1" Style="{StaticResource AppleButtonStyle}"
+                                Click="SaveAsButton_Click">
+                            另存为
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 右侧：设置和控制 -->
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 设置选项卡 -->
+                    <TabControl Grid.Row="0">
+                        <TabItem Header="页面设置">
+                            <StackPanel Margin="10">
+                                <TextBlock Text="页面大小" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <ComboBox Name="PageSizeComboBox" SelectedIndex="0" Margin="0,0,0,12">
+                                    <ComboBoxItem Content="A4"/>
+                                    <ComboBoxItem Content="A3"/>
+                                    <ComboBoxItem Content="Letter"/>
+                                </ComboBox>
+
+                                <TextBlock Text="字体" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <ComboBox Name="FontFamilyComboBox" SelectedIndex="0" Margin="0,0,0,12">
+                                    <ComboBoxItem Content="Microsoft YaHei"/>
+                                    <ComboBoxItem Content="SimSun"/>
+                                    <ComboBoxItem Content="Arial"/>
+                                </ComboBox>
+
+                                <TextBlock Text="字体大小" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <TextBox Name="FontSizeTextBox" Text="12" Margin="0,0,0,12"/>
+                            </StackPanel>
+                        </TabItem>
+
+                        <TabItem Header="图片设置">
+                            <StackPanel Margin="10">
+                                <TextBlock Text="图片质量" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <ComboBox Name="ImageQualityComboBox" SelectedIndex="2" Margin="0,0,0,12">
+                                    <ComboBoxItem Content="低质量"/>
+                                    <ComboBoxItem Content="中等质量"/>
+                                    <ComboBoxItem Content="高质量"/>
+                                </ComboBox>
+
+                                <CheckBox Name="CompressImagesCheckBox" Content="压缩图片" IsChecked="True" Margin="0,0,0,12"/>
+                                <CheckBox Name="LargeFileOptimizationCheckBox" Content="大文件优化" IsChecked="True"/>
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
+
+                    <!-- 转换控制 -->
+                    <StackPanel Grid.Row="1" Margin="0,20,0,0">
+                        <Button Name="ConvertButton" Style="{StaticResource AppleButtonStyle}"
+                                Background="{DynamicResource SystemControlBackgroundAccentBrush}"
+                                Foreground="White" HorizontalAlignment="Stretch"
+                                Padding="0,12" FontSize="14" FontWeight="SemiBold"
+                                Click="ConvertButton_Click" Margin="0,0,0,12">
+                            🚀 开始转换
+                        </Button>
+
+                        <StackPanel Name="ProgressPanel" Visibility="Collapsed" Margin="0,0,0,12">
+                            <ProgressBar Name="ConversionProgressBar" Height="6" Margin="0,0,0,8"/>
+                            <TextBlock Name="ProgressTextBlock" Text="准备转换..." 
+                                       FontSize="11" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Name="OpenOutputButton" Style="{StaticResource AppleButtonStyle}"
+                                    IsEnabled="False" Click="OpenOutputButton_Click">
+                                打开PDF
+                            </Button>
+                            
+                            <Button Name="OpenFolderButton" Grid.Column="2" Style="{StaticResource AppleButtonStyle}"
+                                    IsEnabled="False" Click="OpenFolderButton_Click">
+                                打开文件夹
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <Border Grid.Row="2" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" 
+                Padding="20,8">
+            <Grid>
+                <TextBlock Name="StatusTextBlock" Text="就绪" FontSize="11" VerticalAlignment="Center"/>
+                <TextBlock Text="v1.0.0 © 2024" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window> 
